@@ -1,0 +1,92 @@
+package com.starChef.mapper;
+
+import com.github.pagehelper.Page;
+import com.starChef.dto.GoodsSalesDTO;
+import com.starChef.dto.OrdersPageQueryDTO;
+import com.starChef.entity.Orders;
+import com.starChef.result.PageResult;
+import com.starChef.vo.OrderStatisticsVO;
+import com.starChef.vo.OrderVO;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+@Mapper
+public interface OrderMapper {
+
+    /**
+     * 插入订单数据
+     * @param orders
+     */
+    void insert(Orders orders);
+
+    /**
+     * 根据订单号查询订单
+     * @param orderNumber
+     */
+    @Select("select * from orders where number = #{orderNumber}")
+    Orders getByNumber(String orderNumber);
+
+    /**
+     * 修改订单信息
+     * @param orders
+     */
+    void update(Orders orders);
+
+    /**
+     * 订单分页查询
+     * @param ordersPageQueryDTO
+     * @return
+     */
+    Page<OrderVO> pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
+
+    /**
+     * 根据id查询订单
+     * @param id
+     * @return
+     */
+    @Select("select * from orders where id = #{id}")
+    OrderVO getById(Long id);
+
+    /**
+     * 各个状态的订单数量统计
+     * @return
+     */
+    @Select("select count(*) from orders where status = #{status}")
+    Integer countStatus(Integer toBeConfirmed);
+
+    /**
+     * 查询订单状态和下单时间
+     * @param status
+     * @param orderTime
+     * @return
+     */
+    @Select("select * from orders where status = #{status} and order_time < #{orderTime}")
+    List<Orders> getByStatusAndOrderTimeLT(Integer status, LocalDateTime orderTime);
+
+    /**
+     * 根据动态条件统计营业额数据
+     * @param map
+     * @return
+     */
+    Double sumByMap(Map map);
+
+    /**
+     * 根据动态条件统计数量
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map map);
+
+    /**
+     * 统计指定时间区间内的销量排名前10
+     * @param begin
+     * @param end
+     * @return
+     */
+    List<GoodsSalesDTO> getSalesTop10(LocalDateTime begin, LocalDateTime end);
+}
