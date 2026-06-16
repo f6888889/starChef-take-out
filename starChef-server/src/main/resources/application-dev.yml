@@ -5,17 +5,17 @@ starChef:
     port: 3306
     database: starChef_take_out
     username: root
-    password: your_password
+    password: ${STAR_CHEF_DATASOURCE_PASSWORD:your_password}
   alioss:
-    endpoint: your_endpoint
-    access-key-id: your_access_key_id
-    access-key-secret: your_access_key_secret
-    bucket-name: your_bucket_name
+    endpoint: ${STAR_CHEF_ALIOSS_ENDPOINT:oss-cn-beijing.aliyuncs.com}
+    access-key-id: ${STAR_CHEF_ALIOSS_ACCESS_KEY_ID:your_access_key_id}
+    access-key-secret: ${STAR_CHEF_ALIOSS_ACCESS_KEY_SECRET:your_access_key_secret}
+    bucket-name: ${STAR_CHEF_ALIOSS_BUCKET_NAME:java-chashaobao-ai}
   redis:
     host: localhost
     port: 6379
 #    password: your_redis_password
     database: 10
   wechat:
-    appid: your_wechat_appid
-    secret: your_wechat_secret
+    appid: ${STAR_CHEF_WECHAT_APPID:your_wechat_appid}
+    secret: ${STAR_CHEF_WECHAT_SECRET:your_wechat_secret}
